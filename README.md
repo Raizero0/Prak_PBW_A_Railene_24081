@@ -49,6 +49,10 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-1)
   - [4. Hasil Foto Tugas 4](#4-hasil-foto-tugas-1)
 - [Pertemuan 5](#pertemuan-5)
+  - [1. Cara Install](#1-cara-install-2)
+  - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-2)
+  - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-2)
+  - [4. Hasil Foto Tugas](#4-hasil-foto-tugas-2)
 
 ---
 
@@ -499,6 +503,151 @@ Berikut adalah hasil tangkapan layar antarmuka sistem autentikasi LaraPress pada
 
 # Pertemuan 5
 
-*Laporan menyusul.*
+Materi: Implementasi Operasi **CRUD (Create, Read, Update, Delete)** Penuh pada Framework Laravel 12, Konfigurasi Dinamis Menggunakan Caching (*Dynamic Settings*), Sistem Buku Tamu Digital, Pengamanan Rute Terproteksi dengan Middleware Autentikasi Laravel Breeze, serta Kustomisasi Antarmuka Web Sekolah Modern (*Light Minimalist Modern UI*).
+
+Proyek Utama: **SMP Mentari** (Portal Web Sekolah & Panel Admin Kontrol)
+
+## 1. Cara Install
+
+Susunan instalasi dan konfigurasi proyek disesuaikan dengan Modul Praktikum PBW Pertemuan 5:
+
+### Kebutuhan Sistem & Environment
+
+| Perangkat / Package | Standar Versi | Fungsi Utama | 
+| ----- | ----- | ----- | 
+| **PHP** | Minimal Versi 8.2 | Programming Language Runtime | 
+| **Framework** | Laravel 12.x | Framework Utama Aplikasi Web | 
+| **Starter Kit** | Laravel Breeze | Sistem Autentikasi Pengurus/Admin | 
+| **Database Engine** | MySQL / MariaDB (Laragon / XAMPP) | Penyimpanan Tabel Users, Kegiatan, Pesan Tamu, & Settings | 
+| **Frontend Tooling** | Node.js & NPM (Tailwind CSS) | Asset Bundler & Styling UI Responsive | 
+
+### Langkah-Langkah Instalasi Proyek SMP Mentari
+
+1. **Membuat Proyek Baru via Composer**
+
+   Buka terminal di root web server (`C:\laragon\www\`), lalu jalankan perintah:
+
+   ```bash
+   composer create-project laravel/laravel SMP-Mentari
+   cd SMP-Mentari
+   ```
+
+2. **Instalasi & Konfigurasi Starter Kit Laravel Breeze**
+
+   Unduh dan jalankan instalasi Breeze Blade untuk sistem autentikasi:
+
+   ```bash
+   composer require laravel/breeze --dev
+   php artisan breeze:install blade
+   ```
+
+3. **Instalasi Dependensi Frontend & Compiling Assets**
+
+   Instal pustaka JavaScript dan Tailwind CSS:
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+4. **Menjalankan Migrasi Database & Seeding Konfigurasi**
+
+   Jalankan perintah migrasi untuk membuat tabel `users`, `kegiatans`, `pesan_tamus`, dan `settings`:
+
+   ```bash
+   php artisan migrate
+   ```
+
+5. **Menjalankan Development Server Lokal**
+
+   Jalankan server Artisan lokal untuk mengakses portal web:
+
+   ```bash
+   php artisan serve
+   ```
+
+   Aplikasi web aktif di alamat: `http://127.0.0.1:8000`
+
+---
+
+## 2. Tugas yang Dikerjakan
+
+Berdasarkan Modul Praktikum Pertemuan 5, tugas yang diselesaikan meliputi lima bagian utama:
+
+1. **Skema Database & Migrasi (*Migrations*)**:
+   * Membuat file migrasi tabel `pesan_tamus` (kolom `nama`, `email`, `pesan`).
+   * Membuat file migrasi tabel `kegiatans` (kolom `judul`, `deskripsi`).
+   * Membuat file migrasi tabel `settings` (kolom `key`, `value`, `type`, `description`) beserta data awal (*seeding*) untuk konfigurasi `home_kegiatan_per_page`.
+
+2. **Pengembangan Eloquent Model & Caching**:
+   * Menyiapkan model `PesanTamu` dan `Kegiatan` dengan properti `$fillable`.
+   * Menyiapkan model `Setting` yang dilengkapi *static methods* (`get`, `set`, dan `clearCache`) menggunakan `Cache::remember` untuk mengoptimalkan performa pembacaan konfigurasi dinamis.
+
+3. **Pembangunan Controller & Logika Bisnis**:
+   * **`PageController`**: Menampilkan halaman utama publik (`/`) dengan jumlah kegiatan dinamis berdasarkan setting per halaman.
+   * **`KegiatanController`**: Mengelola seluruh operasi CRUD data kegiatan sekolah (`index`, `create`, `store`, `edit`, `update`, `destroy`).
+   * **`PesanTamuController`**: Mengelola pengiriman pesan publik (`/bukutamu`) dan pengelolaan/penghapusan pesan oleh admin (`/admin/bukutamu`).
+   * **`DashboardController`**: Menyediakan ringkasan metrik statistik kegiatan, pesan masuk, dan sampel pesan terbaru.
+   * **`SettingController`**: Mengelola pembaruan nilai konfigurasi dinamis website.
+
+4. **Routing Terstruktur (`routes/web.php`)**:
+   * Mendefinisikan rute publik (`/` dan `/bukutamu`).
+   * Mendefinisikan grup rute terproteksi middleware `auth` untuk area admin (`/dashboard`, `/kegiatan`, `/admin/bukutamu`, `/settings`, dan `/profile`).
+
+5. **Kustomisasi Antarmuka Modern (*Light Minimalist Modern UI*)**:
+   * Merombak total antarmuka web menjadi bersih, kontras, dan terstruktur berbasis Tailwind CSS dengan warna utama *Royal Blue*, *Pure White Card*, dan *Slate Palette*.
+
+---
+
+## 3. Fitur-Fitur Utama
+
+Sistem web SMP Mentari pada Pertemuan 5 menyediakan fitur-fitur berikut:
+
+### A. Fitur Halaman Publik
+* 🏠 **Portal Berita & Kegiatan Sekolah (`/`)**: Menampilkan *Hero Banner* interaktif, statistik ringkas sekolah, daftar kegiatan sekolah terbaru dengan sistem *pagination*, serta indikator akreditasi.
+* 💬 **Buku Tamu Digital Pengunjung (`/bukutamu`)**: Formulir publik bagi pengunjung untuk mengirimkan pesan/kesan dan menampilkan daftar masukan dari masyarakat secara langsung.
+
+### B. Fitur Panel Admin Terproteksi
+* 📊 **Dashboard Administrator (`/dashboard`)**: Pusat kontrol yang menampilkan ucapan selamat datang dinamis, kartu metrik jumlah kegiatan & pesan masuk, serta *preview* pesan terbaru.
+* 📌 **Kelola CRUD Kegiatan (`/kegiatan`)**: Fitur lengkap untuk membuat, melihat, memperbarui, dan menghapus data agenda/berita kegiatan sekolah.
+* ✉️ **Moderasi Buku Tamu (`/admin/bukutamu`)**: Tabel manajemen bagi administrator untuk meninjau dan menghapus pesan pengunjung.
+* ⚙️ **Konfigurasi Dinamis Website (`/settings`)**: Panel pengaturan angka pagination atau preferensi sistem yang tersimpan di database dan di-cache secara otomatis.
+* 👤 **Pengelolaan Profil & Keamanan (`/profile`)**: Fitur kustomisasi profil pengurus, pembaruan kata sandi, dan penghapusan akun.
+
+---
+
+## 4. Hasil Foto Tugas
+
+Berikut adalah tangkapan layar hasil pengujian antarmuka aplikasi SMP Mentari pada Pertemuan 5:
+
+### 4.1 Halaman Utama Publik (`/`)
+![Halaman Utama Publik](assets/Prak5/01-home.png)
+
+### 4.2 Halaman Buku Tamu Publik (`/bukutamu`)
+![Halaman Buku Tamu Publik](assets/Prak5/02-bukutamu-publik.png)
+
+### 4.3 Dashboard Administrator (`/dashboard`)
+![Dashboard Administrator](assets/Prak5/03-dashboard-admin.png)
+
+### 4.4 Kelola Daftar Kegiatan Admin (`/kegiatan`)
+![Kelola Daftar Kegiatan](assets/Prak5/04-kelola-kegiatan.png)
+
+### 4.5 Form Tambah Kegiatan Baru (`/kegiatan/create`)
+![Tambah Kegiatan Baru](assets/Prak5/05-tambah-kegiatan.png)
+
+### 4.6 Form Edit / Ubah Kegiatan (`/kegiatan/{id}/edit`)
+![Edit Kegiatan](assets/Prak5/06-edit-kegiatan.png)
+
+### 4.7 Kelola Buku Tamu Admin (`/admin/bukutamu`)
+![Kelola Buku Tamu Admin](assets/Prak5/07-admin-bukutamu.png)
+
+### 4.8 Konfigurasi Dinamis Website (`/settings`)
+![Konfigurasi Website](assets/Prak5/08-konfigurasi-website.png)
+
+### 4.9 Halaman Login Pengurus (`/login`)
+![Halaman Login](assets/Prak5/09-login.png)
+
+### 4.10 Halaman Registrasi Akun Baru (`/register`)
+![Halaman Registrasi](assets/Prak5/10-register.png)
 
 ---
