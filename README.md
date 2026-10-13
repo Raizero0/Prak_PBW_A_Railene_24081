@@ -41,13 +41,17 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [1. Cara Install Laravel](#1-cara-install)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama)
-  - [4. Hasil Foto Tugas](#4-hasil-foto-tugas)
+  - [4. Hasil Foto Tugas 3](#4-hasil-foto-tugas)
 - [Pertemuan 4](#pertemuan-4)
+  - [1. Cara Install laravel Breeze](#1-cara-install-1)
+  - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-1)
+  - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-1)
+  - [4. Hasil Foto Tugas 4](#4-hasil-foto-tugas-1)
 - [Pertemuan 5](#pertemuan-5)
 
 ---
 
-# Pertemuan 1 dan 2
+# Pertemuan 1 dan 2 (Tugas 1 dan 2)
 
 Materi: dasar PHP, client-server, dan HTTP method (GET dan POST), dengan dua contoh program (`kalkulator.php` dan `biodata.php`).
 
@@ -267,7 +271,7 @@ case '%':
 
 ---
 
-# Pertemuan 3
+# Pertemuan 3 (Tugas 3)
 
 Materi: Instalasi, Konfigurasi, dan Halaman Pertama Laravel 12 (Arsitektur MVC, HTTP Request Lifecycle, Routing `routes/web.php`, dan Templating Blade `resources/views/`).
 
@@ -367,9 +371,128 @@ Berikut adalah hasil tangkapan layar antarmuka proyek LaraPress pada Pertemuan 3
 
 ---
 
-# Pertemuan 4
+# Pertemuan 4 (Tugas 4)
 
-*Laporan menyusul.*
+Materi : Authentikasi Login
+
+Proyek Utama: **LaraPress**
+
+---
+
+## 1. Cara Install Laravel Breeze
+
+Susunan instalasi dan konfigurasi sistem autentikasi disesuaikan dengan Modul Praktikum PBW Pertemuan 4:
+
+### Kebutuhan Sistem & Environment
+
+| Perangkat / Package | Standar Versi | Fungsi Utama |
+| --- | --- | --- |
+| **PHP** | Minimal Versi 8.2 | Programming Language Runtime |
+| **Framework** | Laravel 12.x | Framework Utama Aplikasi Web |
+| **Starter Kit** | Laravel Breeze | Package Starter Kit Autentikasi |
+| **Database Engine** | MySQL / MariaDB (Laragon / XAMPP) | Penyimpanan Tabel Users & Sessions |
+| **Frontend Tooling** | Node.js & NPM (Tailwind CSS) | Asset Bundler & Styling Frontend |
+
+### Langkah-Langkah Instalasi Laravel Breeze
+
+1. **Masuk ke Direktori Proyek LaraPress**  
+   Buka terminal, lalu arahkan aktif terminal ke folder proyek `LaraPress`:
+   ```bash
+   cd LaraPress
+   ```
+
+2. **Instalasi Package Laravel Breeze via Composer**  
+   Unduh pustaka dependensi Breeze ke dalam proyek:
+   ```bash
+   composer require laravel/breeze --dev
+   ```
+
+3. **Eksekusi Command Artisan Breeze Install**  
+   Publikasikan komponen Controllers, Views, dan Routes bawaan Breeze:
+   ```bash
+   php artisan breeze:install
+   ```
+   *Pilihan Konfigurasi CLI:*
+   - Stack pilihan: `Blade with Alpine` (Pilih 0)
+   - Dark mode support: `No`
+   - Testing framework: `Pest` (Pilih 0)
+
+4. **Instalasi Dependensi Frontend & Compiling Assets**  
+   Instal pustaka JavaScript/Tailwind dan lakukan kompilasi aset:
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+5. **Jalankan Migrasi Database**  
+   Eksekusi migrasi untuk membuat tabel `users`, `password_reset_tokens`, dan `sessions`:
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Menjalankan Development Server Lokal**  
+   Jalankan server Artisan bawaan Laravel:
+   ```bash
+   php artisan serve
+   ```
+   Aplikasi dan rute autentikasi akan aktif di alamat: `http://127.0.0.1:8000`
+
+---
+
+## 2. Tugas yang Dikerjakan
+
+Berdasarkan Modul Praktikum Pertemuan 4, tugas yang diselesaikan meliputi empat bagian utama:
+
+1. **Memahami Konsep & Filosofi Autentikasi**:
+   - Memahami perbedaan Autentikasi ("Siapa Anda?") dan Otorisasi ("Apa yang boleh dilakukan?").
+   - Memahami mekanisme Password Hashing (Bcrypt) satu arah dan proteksi CSRF (`@csrf`).
+   - Memahami peran Cookies dan Sessions sebagai penanda status login pengguna pada protokol HTTP yang *stateless*.
+
+2. **Instalasi & Konfigurasi Laravel Breeze**:
+   - Mengintegrasikan package Laravel Breeze ke dalam aplikasi blog **LaraPress**.
+   - Menjalankan migrasi struktur database pendukung autentikasi.
+
+3. **Mengamankan Rute Terproteksi dengan Middleware `auth`**:
+   - Mendaftarkan rute terproteksi untuk `/dashboard` dan grup rute `/profile` di file `routes/web.php`.
+   - Menguji pengalihan otomatis (*redirect*) pengguna yang belum terautentikasi kembali ke halaman `/login`.
+
+4. **Kustomisasi UI & Antarmuka Modern**:
+   - Merombak tampilan bawaan Breeze (`login.blade.php`, `register.blade.php`, `dashboard.blade.php`, dan `edit.blade.php` profil) agar serasi dengan antarmuka LaraPress berbasis Tailwind CSS *dark mode*, aksen neon cyan & indigo, serta efek *glassmorphism*.
+
+---
+
+## 3. Fitur-Fitur Utama
+
+Berikut adalah fitur-fitur utama sistem autentikasi pada aplikasi LaraPress di Pertemuan 4:
+
+* 🔑 **Autentikasi Registrasi & Login**: Menyediakan form registrasi akun baru dan form login dengan validasi kredensial email & password.
+* 🛡️ **Keamanan Password Hashing & CSRF**: Password terenkripsi secara otomatis menggunakan algoritma hashing Bcrypt, serta seluruh form terlindungi token `@csrf`.
+* 🚧 **Proteksi Rute Middleware (`auth`)**: Mengunci rute khusus seperti `/dashboard` dan `/profile` agar tidak bisa diakses langsung tanpa sesi login yang valid.
+* 👤 **Dashboard Admin Interaktif**: Menampilkan panel pusat kendali administrator terproteksi yang menampilkan ucapan selamat datang dinamis (`Auth::user()->name`) dan status akun terdaftar.
+* ⚙️ **Pengelolaan Profil & Keamanan Akun**: Menyediakan halaman khusus bagi pengguna terautentikasi untuk mengedit informasi nama, email, mengubah kata sandi, serta menghapus akun.
+* 🎨 **Antarmuka Modern Dark Mode**: Tampilan terintegrasi penuh menggunakan Tailwind CSS dengan efek *glassmorphism*, font Plus Jakarta Sans, dan warna aksen neon cyan & indigo.
+
+---
+
+## 4. Hasil Foto Tugas
+
+Berikut adalah hasil tangkapan layar antarmuka sistem autentikasi LaraPress pada Pertemuan 4:
+
+### 4.1 Halaman Login (`/login`)
+
+![Halaman Login](assets/Prak4/01-login.png)
+
+### 4.2 Halaman Registrasi (`/register`)
+
+![Halaman Registrasi](assets/Prak4/02-register.png)
+
+### 4.3 Halaman Dashboard Admin (`/dashboard`)
+
+![Halaman Dashboard](assets/Prak4/03-dashboard.png)
+
+### 4.4 Halaman Pengaturan Profil (`/profile`)
+
+![Halaman Pengaturan Profil](assets/Prak4/04-profile.png)
 
 ---
 
