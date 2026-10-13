@@ -6,7 +6,7 @@
 
 <br>
 
-<img src="assets/prak1-2/00-logo-upp.png" alt="Logo Universitas Pancasila" width="220">
+<img src="[assets/prak1-2/00-logo-upp.png](https://icon2.cleanpng.com/20180608/zgf/kisspng-pancasila-university-universitas-pancasila-railway-5b1b4271cea3a0.5140106115285131378464.jpg)" alt="Logo Universitas Pancasila" width="220">
 
 <br>
 
