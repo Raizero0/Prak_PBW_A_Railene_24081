@@ -3,11 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Pertemuan 3: Rute Publik (Home, Tentang Kami, Kontak)
-|--------------------------------------------------------------------------
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,11 +17,6 @@ Route::get('/kontak', function () {
 })->name('contact');
 
 
-/*
-|--------------------------------------------------------------------------
-| Pertemuan 4: Rute Terproteksi Breeze (Dashboard & Profile)
-|--------------------------------------------------------------------------
-*/
 
 Route::get('/dashboard', function () {
     return view('dashboard');
