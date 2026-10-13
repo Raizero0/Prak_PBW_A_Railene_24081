@@ -275,7 +275,7 @@ Proyek Utama: **LaraPress** (Aplikasi Blog Sederhana)
 
 ---
 
-## 1. Cara Install
+## 1. Cara Install Laravel
 
 Susunan instalasi dan konfigurasi proyek disesuaikan dengan Modul Praktikum PBW Pertemuan 3:
 
