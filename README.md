@@ -380,7 +380,7 @@ Proyek Utama: **LaraPress**
 
 ---
 
-## 1. Cara Install Laravel Breeze
+## 1. Cara Install
 
 Susunan instalasi dan konfigurasi sistem autentikasi disesuaikan dengan Modul Praktikum PBW Pertemuan 4:
 
