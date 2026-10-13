@@ -1,63 +1,83 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ url('/') }}" class="text-2xl font-bold text-blue-600">
-                        SMP Mentari
-                    </a>
-                </div>
+<nav x-data="{ open: false }" class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 text-slate-800">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="url('/')" :active="request()->is('/')">
-                        Home
-                    </x-nav-link>
-                    <x-nav-link :href="url('/bukutamu')" :active="request()->is('bukutamu')">
-                        Buku Tamu
-                    </x-nav-link>
-                </div>
+        <!-- Logo Brand -->
+        <a href="{{ url('/') }}" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-extrabold text-white text-xl shadow-md shadow-blue-600/20 group-hover:scale-105 transition-transform">
+                M
             </div>
+            <span class="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+                SMP <span class="text-blue-600">Mentari</span>
+            </span>
+        </a>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                @auth
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
+        <!-- Navigation Links (Desktop) -->
+        <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
+            <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600' }} transition-colors">
+                Berita & Kegiatan
+            </a>
+            <a href="{{ url('/bukutamu') }}" class="{{ request()->is('bukutamu*') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600' }} transition-colors">
+                Buku Tamu
+            </a>
+            @auth
+                <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard*') ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-blue-600' }} transition-colors">
+                    Dashboard Admin
+                </a>
+            @endauth
+        </div>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-dropdown-link>
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+        <!-- Auth Action Buttons (Desktop) -->
+        <div class="hidden md:flex items-center gap-3">
+            @auth
+                <div class="relative" x-data="{ openDropdown: false }">
+                    <button @click="openDropdown = !openDropdown" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 hover:border-blue-300 hover:text-slate-900 transition-all">
+                        <span>👤 {{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div x-show="openDropdown" @click.outside="openDropdown = false" x-transition class="absolute right-0 mt-2 w-48 rounded-xl bg-white border border-slate-200 shadow-xl py-2 z-50">
+                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600">Dashboard Admin</a>
+                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600">Pengaturan Profil</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            <button type="submit" class="w-full text-left block px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50">Log Out</button>
                         </form>
-                    </x-slot>
-                </x-dropdown>
-                @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
-                <a href="{{ route('register') }}" class="ms-4 text-sm text-gray-700 underline">Register</a>
-                @endguest
-            </div>
-
+                    </div>
+                </div>
+            @else
+                <a href="{{ route('login') }}" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+                    Log in
+                </a>
+                <a href="{{ route('register') }}" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/20 transition-all hover:-translate-y-0.5">
+                    Register
+                </a>
+            @endauth
         </div>
+
+        <!-- Mobile Hamburger Button -->
+        <div class="md:hidden">
+            <button @click="open = !open" class="p-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div x-show="open" x-transition class="md:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
+        <a href="{{ url('/') }}" class="block text-sm font-semibold text-slate-700 hover:text-blue-600">Berita & Kegiatan</a>
+        <a href="{{ url('/bukutamu') }}" class="block text-sm font-semibold text-slate-700 hover:text-blue-600">Buku Tamu</a>
+        @auth
+            <a href="{{ route('dashboard') }}" class="block text-sm font-semibold text-slate-700 hover:text-blue-600">Dashboard Admin</a>
+            <a href="{{ route('profile.edit') }}" class="block text-sm font-semibold text-slate-700 hover:text-blue-600">Pengaturan Profil</a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full text-left text-sm font-semibold text-rose-600">Log Out</button>
+            </form>
+        @else
+            <div class="pt-2 border-t border-slate-100 flex items-center gap-3">
+                <a href="{{ route('login') }}" class="block text-sm font-semibold text-slate-700">Log in</a>
+                <a href="{{ route('register') }}" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs">Register</a>
+            </div>
+        @endauth
     </div>
 </nav>
