@@ -53,6 +53,7 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-2)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-2)
   - [4. Hasil Foto Tugas](#4-hasil-foto-tugas-2)
+- [📂 Panduan Git & GitHub](./panduan/)
 
 ---
 
@@ -649,5 +650,23 @@ Berikut adalah tangkapan layar hasil pengujian antarmuka aplikasi SMP Mentari pa
 
 ### 4.10 Halaman Registrasi Akun Baru (`/register`)
 ![Halaman Registrasi](assets/Prak5/10-register.png)
+
+---
+
+## 🛠️ Panduan & Workflow Git/GitHub
+
+Untuk mempermudah pemeliharaan repositori dan memahami alur kerja version control yang digunakan pada proyek ini, dokumen panduan lengkap telah disediakan terpisah:
+
+👉 **[Buka Panduan Lengkap Git & GitHub Workflow](./panduan/)**
+
+Panduan tersebut mencakup:
+1. Inisialisasi & Initial Push
+2. Daily Push Workflow
+3. Update File/Folder Spesifik
+4. Hapus & Ganti File/Folder
+5. Kloning & Alur Kerja Pasca-Clone
+6. Solusi Push Rejected (`git pull --rebase`)
+7. Feature Branching
+8. Force Push Aman (`--force-with-lease`)
 
 ---
