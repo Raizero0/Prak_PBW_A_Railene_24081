@@ -38,7 +38,7 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [4. Tampilan Sebelum dan Sesudah Modifikasi](#4-tampilan-sebelum-dan-sesudah-modifikasi)
   - [5. Error yang Pernah Muncul](#5-error-yang-pernah-muncul)
 - [Pertemuan 3](#pertemuan-3)
-  - [1. Cara Install](#1-cara-install)
+  - [1. Cara Install Laravel](#1-cara-install)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama)
   - [4. Hasil Foto Tugas](#4-hasil-foto-tugas)
