@@ -44,7 +44,7 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama)
   - [4. Hasil Foto Tugas 3](#4-hasil-foto-tugas-3)
 - [Pertemuan 4](#pertemuan-4)
-  - [1. Cara Install Laravel Breeze](#1-cara-install-Laravel-Breeze-1)
+  - [1. Cara Install Laravel Breeze](#1-cara-install-1)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-1)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-1)
   - [4. Hasil Foto Tugas 4](#4-hasil-foto-tugas-1)
