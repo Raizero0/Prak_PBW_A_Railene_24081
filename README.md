@@ -39,10 +39,10 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [4. Tampilan Sebelum dan Sesudah Modifikasi](#4-tampilan-sebelum-dan-sesudah-modifikasi)
   - [5. Error yang Pernah Muncul](#5-error-yang-pernah-muncul)
 - [Pertemuan 3](#pertemuan-3)
-  - [1. Cara Install Laravel](#1-cara-install)
+  - [1. Cara Install Laravel](#1-cara-install-Laravel)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama)
-  - [4. Hasil Foto Tugas 3](#4-hasil-foto-tugas)
+  - [4. Hasil Foto Tugas 3](#4-hasil-foto-tugas-3)
 - [Pertemuan 4](#pertemuan-4)
   - [1. Cara Install laravel Breeze](#1-cara-install-1)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-1)
@@ -272,7 +272,7 @@ case '%':
 
 ---
 
-# Pertemuan 3 (Tugas 3)
+# Pertemuan 3
 
 Materi: Instalasi, Konfigurasi, dan Halaman Pertama Laravel 12 (Arsitektur MVC, HTTP Request Lifecycle, Routing `routes/web.php`, dan Templating Blade `resources/views/`).
 
@@ -354,7 +354,7 @@ Berikut adalah fitur-fitur yang ada pada aplikasi web LaraPress di Pertemuan 3:
 
 ---
 
-## 4. Hasil Foto Tugas
+## 4. Hasil Foto Tugas 3
 
 Berikut adalah hasil tangkapan layar antarmuka proyek LaraPress pada Pertemuan 3:
 
@@ -475,7 +475,7 @@ Berikut adalah fitur-fitur utama sistem autentikasi pada aplikasi LaraPress di P
 
 ---
 
-## 4. Hasil Foto Tugas
+## 4. Hasil Foto Tugas 4
 
 Berikut adalah hasil tangkapan layar antarmuka sistem autentikasi LaraPress pada Pertemuan 4:
 
