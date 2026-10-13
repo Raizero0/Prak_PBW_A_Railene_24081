@@ -265,7 +265,101 @@ case '%':
 
 # Pertemuan 3
 
-*Laporan menyusul.*
+Materi: Instalasi, Konfigurasi, dan Halaman Pertama Laravel 12 (Arsitektur MVC, HTTP Request Lifecycle, Routing `routes/web.php`, dan Templating Blade `resources/views/`).
+
+Proyek Utama: **LaraPress** (Aplikasi Blog Sederhana)
+
+---
+
+## 1. Cara Install
+
+Susunan instalasi dan konfigurasi proyek disesuaikan dengan Modul Praktikum PBW Pertemuan 3:
+
+### Kebutuhan Sistem & Environment
+
+| Perangkat / Software | Standar Versi | Fungsi Utama |
+| --- | --- | --- |
+| **PHP** | Minimal Versi 8.2 | Programming Language Runtime |
+| **Web Server & DB** | Laragon / XAMPP | Environment Web Server (Apache) & MySQL |
+| **Dependency Manager** | Composer 2.x | Pustaka Manajer Dependensi PHP |
+| **Terminal / CLI** | Terminal Laragon / CMD / Git Bash | Eksekutor perintah CLI Artisan & Composer |
+| **Code Editor** | Visual Studio Code | Penyuntingan & pengelolaan kode sumber |
+| **Web Browser** | Google Chrome / Firefox / Brave | Pengujian tampilan aplikasi web |
+
+### Langkah-Langkah Instalasi Proyek LaraPress
+
+1. **Membuat Proyek Baru via Composer**  
+   Buka terminal pada root server web (`C:\laragon\www\` atau `C:\xampp\htdocs\`), lalu jalankan perintah:
+   ```bash
+   composer create-project laravel/laravel:"^12.0" LaraPress
+   ```
+
+2. **Masuk ke Direktori Proyek**  
+   Pindahkan direktori aktif terminal ke folder proyek:
+   ```bash
+   cd LaraPress
+   ```
+
+3. **Konfigurasi Environment & Generate Application Key**  
+   Salin file konfigurasi environment `.env` dan buat kunci enkripsi aplikasi:
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Menjalankan Development Server Lokal**  
+   Jalankan server lokal bawaan Artisan:
+   ```bash
+   php artisan serve
+   ```
+   Aplikasi akan berjalan di alamat: `http://127.0.0.1:8000`
+
+---
+
+## 2. Tugas yang Dikerjakan
+
+Berdasarkan Modul Praktikum Pertemuan 3, tugas yang diselesaikan meliputi dua bagian:
+
+1. **Tugas Utama**:
+   - Membangun proyek baru berbasis Laravel 12 bernama **LaraPress**.
+   - Mendefinisikan rute utama `/` pada `routes/web.php` yang mengembalikan tampilan View Halaman Utama (`welcome.blade.php`).
+   - Mendefinisikan rute `/tentang-kami` pada `routes/web.php` yang mengembalikan tampilan View Halaman Tentang Kami (`about.blade.php`).
+   - Menghubungkan kedua halaman statis tersebut menggunakan link navigasi bolak-balik (`<a href="...">`).
+
+2. **Tugas Mandiri (Wajib)**:
+   - Membuat satu halaman statis baru bernama **Kontak**.
+   - Mendefinisikan endpoint rute `/kontak` pada `routes/web.php` yang memanggil View `contact.blade.php`.
+   - Mengisi halaman kontak dengan informasi kontak pengembang yang relevan dan menambahkan tautan navigasi ke halaman lainnya.
+
+---
+
+## 3. Fitur-Fitur Utama
+
+Berikut adalah fitur-fitur yang ada pada aplikasi web LaraPress di Pertemuan 3:
+
+* 🏠 **Halaman Utama / Landing Page (`/`)**: Menampilkan banner ucapan selamat datang, deskripsi singkat platform LaraPress, 3 kartu highlight modul (MVC, Breeze, Blade), serta tombol direct link menuju repositori GitHub proyek.
+* ℹ️ **Halaman Tentang Kami (`/tentang-kami`)**: Menampilkan informasi tujuan pengembangan proyek, teknologi yang digunakan (*tech stack*), environment server, serta kartu profil pengembang (Nama, NPM, Prodi, dan Kampus).
+* 📞 **Halaman Hubungi Kami (`/kontak`)**: Menampilkan kartu informasi email *support*, lokasi kampus, serta tombol aksi interaktif *Direct Chat WhatsApp* yang langsung terhubung ke nomor WhatsApp pengembang (`+62 896-5630-2791`).
+* 🧭 **Navigasi Bar & Footer Konsisten**: Menyediakan menu navigasi yang konsisten di setiap halaman serta deteksi tombol status login/register.
+* 🎨 **Antarmuka Modern & Responsif**: Menggunakan Tailwind CSS dengan gaya *dark mode*, warna aksen neon cyan & indigo, serta efek tampilan *glassmorphism*.
+
+---
+
+## 4. Hasil Foto Tugas
+
+Berikut adalah hasil tangkapan layar antarmuka proyek LaraPress pada Pertemuan 3:
+
+### 4.1 Halaman Utama (`/`)
+
+![Halaman Utama](assets/Prak3/01-home.png)
+
+### 4.2 Halaman Tentang Kami (`/tentang-kami`)
+
+![Halaman Tentang Kami](assets/Prak3/02-about.png)
+
+### 4.3 Halaman Hubungi Kami (`/kontak`)
+
+![Halaman Hubungi Kami](assets/Prak3/03-contact.png)
 
 ---
 
