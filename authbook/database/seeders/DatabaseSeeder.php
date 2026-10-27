@@ -4,25 +4,27 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\User;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat admin user untuk Filament
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-        ]);
+        $this->call(UserSeeder::class);
+        $this->call(CategorySeeder::class);
 
-        // Buat 10 authors
         $authors = Author::factory(10)->create();
+        $categoryIds = Category::pluck('id');
 
-        // Buat 50 books dengan random authors
-        Book::factory(50)->create([
-            'author_id' => fn() => $authors->random()->id,
-        ]);
+        for ($i = 0; $i < 50; $i++) {
+            $book = Book::factory()->create([
+                'author_id' => $authors->random()->getKey(),
+            ]);
+
+            $book->categories()->attach(
+                $categoryIds->random(rand(1, 3))->all()
+            );
+        }
     }
 }

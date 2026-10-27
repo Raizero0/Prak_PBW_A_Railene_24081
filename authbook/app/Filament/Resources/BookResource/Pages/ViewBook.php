@@ -47,10 +47,17 @@ class ViewBook extends ViewRecord
 
                         Infolists\Components\TextEntry::make('status')
                             ->badge()
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 'available' => 'success',
                                 'borrowed' => 'warning',
                             }),
+
+                        Infolists\Components\TextEntry::make('description')
+                            ->columnSpanFull(),
+
+                        Infolists\Components\TextEntry::make('categories.name')
+                            ->badge()
+                            ->columnSpanFull(),
 
                         Infolists\Components\TextEntry::make('created_at')
                             ->dateTime(),

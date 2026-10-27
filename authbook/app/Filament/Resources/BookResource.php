@@ -61,6 +61,22 @@ class BookResource extends Resource
                             ])
                             ->required()
                             ->default('available'),
+
+                        Forms\Components\Textarea::make('description')
+                            ->rows(5)
+                            ->columnSpanFull(),
+
+                        Forms\Components\Select::make('categories')
+                            ->relationship('categories', 'name')
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 
@@ -100,6 +116,11 @@ class BookResource extends Resource
                 Tables\Columns\TextColumn::make('author.name')
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('categories.name')
+                    ->badge()
+                    ->separator(',')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('publisher')
                     ->searchable()
