@@ -31,7 +31,7 @@ Bambang Riono Arsad, S.Kom., MMSI
 
 ## Daftar Isi
 
-- [Pertemuan 1 dan 2](#pertemuan-1-dan-2)
+- [Pertemuan 1 dan 2](#pertemuan-1-dan-2-tugas-1-dan-2)
   - [Cara Install](#cara-install)
   - [1. Menjalankan Ulang Contoh Pertemuan 1](#1-menjalankan-ulang-contoh-pertemuan-1)
   - [2. Modifikasi Program Minimal 2](#2-modifikasi-program-minimal-2)
@@ -39,20 +39,32 @@ Bambang Riono Arsad, S.Kom., MMSI
   - [4. Tampilan Sebelum dan Sesudah Modifikasi](#4-tampilan-sebelum-dan-sesudah-modifikasi)
   - [5. Error yang Pernah Muncul](#5-error-yang-pernah-muncul)
 - [Pertemuan 3](#pertemuan-3)
-  - [1. Cara Install Laravel](#1-cara-install-Laravel)
+  - [1. Cara Install Laravel](#1-cara-install-laravel)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama)
   - [4. Hasil Foto Tugas 3](#4-hasil-foto-tugas-3)
 - [Pertemuan 4](#pertemuan-4)
-  - [1. Cara Install Laravel Breeze](#1-cara-install-1)
+  - [1. Cara Install](#1-cara-install)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-1)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-1)
-  - [4. Hasil Foto Tugas 4](#4-hasil-foto-tugas-1)
+  - [4. Hasil Foto Tugas 4](#4-hasil-foto-tugas-4)
 - [Pertemuan 5](#pertemuan-5)
-  - [1. Cara Install](#1-cara-install-2)
+  - [1. Cara Install](#1-cara-install-1)
   - [2. Tugas yang Dikerjakan](#2-tugas-yang-dikerjakan-2)
   - [3. Fitur-Fitur Utama](#3-fitur-fitur-utama-2)
-  - [4. Hasil Foto Tugas](#4-hasil-foto-tugas-2)
+  - [4. Hasil Foto Tugas](#4-hasil-foto-tugas)
+- [Pertemuan 6](#pertemuan-6)
+  - [6.1 Cara Install dan Menjalankan](#61-cara-install-dan-menjalankan)
+  - [6.2 Tugas 1: Implementasi Dasar](#62-tugas-1-implementasi-dasar)
+  - [6.3 Tugas 2: Kustomisasi dan Pengembangan](#63-tugas-2-kustomisasi-dan-pengembangan)
+    - [6.3.1 Field Description pada Book](#631-field-description-pada-book)
+    - [6.3.2 Role-Based Access](#632-role-based-access)
+    - [6.3.3 Widget Dashboard](#633-widget-dashboard)
+    - [6.3.4 Kategori Buku](#634-kategori-buku)
+  - [6.4 Tugas 3: Analisis dan Dokumentasi](#64-tugas-3-analisis-dan-dokumentasi)
+    - [6.4.1 Penjelasan Arsitektur](#641-penjelasan-arsitektur)
+    - [6.4.2 Perbandingan dengan Pendekatan Tradisional](#642-perbandingan-dengan-pendekatan-tradisional)
+    - [6.4.3 Refleksi Pembelajaran](#643-refleksi-pembelajaran)
 - [📂 Panduan Git & GitHub](./panduan/)
 
 ---
@@ -650,6 +662,457 @@ Berikut adalah tangkapan layar hasil pengujian antarmuka aplikasi SMP Mentari pa
 
 ### 4.10 Halaman Registrasi Akun Baru (`/register`)
 ![Halaman Registrasi](assets/Prak5/10-register.png)
+
+---
+
+# Pertemuan 6
+
+Materi: Membangun aplikasi manajemen buku dengan **Laravel** dan **Filament 3.x** (admin panel, CRUD lewat Resource, relasi database, upload file, Policy, dan widget dashboard).
+
+Proyek Utama: **AuthBook** (Sistem Manajemen Buku), folder [`authbook`](authbook)
+
+Versi yang dipakai: Laravel 13, PHP 8.3, Filament 3.3.57, MySQL (Laragon).
+
+---
+
+## 6.1 Cara Install dan Menjalankan
+
+### Kebutuhan
+
+| Kebutuhan | Keterangan |
+| --- | --- |
+| PHP | Versi 8.2 ke atas (dipakai 8.3) |
+| Composer | Dependency manager PHP |
+| Laragon | Menyediakan MySQL |
+| Git | Untuk clone repositori |
+
+### Langkah
+
+1. **Ambil project**
+   ```bash
+   git clone https://github.com/Raizero0/Prak_PBW_A_Railene_24081.git
+   cd Prak_PBW_A_Railene_24081/authbook
+   ```
+
+2. **Install dependency**
+   ```bash
+   composer install
+   ```
+
+3. **Siapkan environment**
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
+   Lalu buka `.env` dan atur database. Buat dulu database kosong bernama `authbook` lewat phpMyAdmin Laragon.
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=authbook
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. **Buat tabel dan isi data contoh**
+   ```bash
+   php artisan migrate:fresh --seed
+   php artisan storage:link
+   ```
+
+5. **Jalankan server**
+   ```bash
+   php artisan serve
+   ```
+   Admin panel: `http://localhost:8000/admin/login`
+
+### Akun Login
+
+Password semua akun: `password`
+
+| Email | Role | Hak akses |
+| --- | --- | --- |
+| `admin@example.com` | admin | Semua akses |
+| `staff@example.com` | staff | Lihat, tambah, ubah (tidak bisa hapus) |
+| `viewer@example.com` | viewer | Hanya lihat |
+
+---
+
+## 6.2 Tugas 1: Implementasi Dasar
+
+Pada tugas ini dibuat aplikasi manajemen buku dengan data penulis (`Author`) dan buku (`Book`).
+
+Yang dikerjakan:
+
+- Setup project Laravel dan install Filament (`php artisan filament:install --panels`).
+- Membuat migration dan model `Author` dan `Book` (relasi satu penulis punya banyak buku).
+- Membuat factory dan seeder: 10 penulis dan 50 buku data contoh.
+- Membuat `AuthorResource` dan `BookResource` untuk CRUD, lengkap dengan pencarian, filter, upload cover, dan bulk delete.
+
+### Hasil Foto Tugas 1
+
+**1. Admin panel setelah berhasil login**
+
+![Dashboard setelah login](assets/Prak6/Tugas1/01-login-dashboard.png)
+
+**2. List books dengan data seed (50 buku)**
+
+![List books data seed](assets/Prak6/Tugas1/02-list-books-seed.png)
+
+**3. Form create book**
+
+![Form create book](assets/Prak6/Tugas1/03-form-create-book.png)
+
+**4. Hasil pencarian**
+
+![Hasil pencarian](assets/Prak6/Tugas1/04-hasil-pencarian.png)
+
+**5. Filter aktif (Status dan Year)**
+
+![Filter aktif](assets/Prak6/Tugas1/05-filter-aktif.png)
+
+---
+
+## 6.3 Tugas 2: Kustomisasi dan Pengembangan
+
+### 6.3.1 Field Description pada Book
+
+Menambah kolom `description` (text) pada tabel `books`.
+
+| Bagian | Yang dilakukan |
+| --- | --- |
+| Migration | `add_description_to_books_table`, kolom `text('description')->nullable()` |
+| Model | `description` ditambahkan ke `$fillable` pada `Book` |
+| Resource | Komponen `Textarea::make('description')` di form, dan `TextEntry` di halaman View |
+| Factory | `'description' => fake()->paragraph()` |
+
+```php
+// migration
+$table->text('description')->nullable()->after('status');
+
+// BookResource (form)
+Forms\Components\Textarea::make('description')
+    ->rows(5)
+    ->columnSpanFull(),
+```
+
+**Foto**
+
+Form create dengan field Description:
+
+![Form create dengan description](assets/Prak6/Tugas2/01-description-form-create.png)
+
+Halaman View menampilkan description:
+
+![Halaman view description](assets/Prak6/Tugas2/02-description-halaman-view.png)
+
+Form edit buku seed, description terisi dari factory:
+
+![Edit buku seed](assets/Prak6/Tugas2/03-description-edit-seed.png)
+
+### 6.3.2 Role-Based Access
+
+Pembatasan akses berdasarkan kolom `role` pada tabel `users`.
+
+| Bagian | Yang dilakukan |
+| --- | --- |
+| Migration | `add_role_to_users_table`, kolom `enum('role', ['admin','staff','viewer'])`, default `viewer` |
+| Model | `role` ditambahkan ke atribut `#[Fillable]` pada `User` |
+| Seeder | `UserSeeder` membuat 3 akun: admin, staff, viewer |
+| Policy | `BookPolicy` (sesuai tugas) dan `AuthorPolicy` (disamakan agar konsisten) |
+
+Hak akses yang berlaku pada menu Books dan Authors:
+
+| Aksi | Admin | Staff | Viewer |
+| --- | :---: | :---: | :---: |
+| Lihat (view) | ✅ | ✅ | ✅ |
+| Tambah (create) | ✅ | ✅ | ❌ |
+| Ubah (edit) | ✅ | ✅ | ❌ |
+| Hapus (delete dan bulk delete) | ✅ | ❌ | ❌ |
+
+```php
+public function create(User $user): bool
+{
+    return in_array($user->role, ['admin', 'staff']);
+}
+
+public function delete(User $user, Book $book): bool
+{
+    return $user->role === 'admin';
+}
+
+// dipakai Filament untuk bulk delete
+public function deleteAny(User $user): bool
+{
+    return $user->role === 'admin';
+}
+```
+
+Method `deleteAny` sengaja ditambahkan. Tanpa itu, staff masih bisa melakukan bulk delete walaupun `delete()` sudah dibatasi.
+
+**Foto**
+
+Admin, menu Books (semua tombol tampil):
+
+![Admin Books](assets/Prak6/Tugas2/04-role-admin-books.png)
+
+Admin, menu Authors:
+
+![Admin Authors](assets/Prak6/Tugas2/05-role-admin-authors.png)
+
+Staff, menu Books (tanpa Delete dan bulk delete):
+
+![Staff Books](assets/Prak6/Tugas2/06-role-staff-books.png)
+
+Staff, menu Authors (tanpa Delete):
+
+![Staff Authors](assets/Prak6/Tugas2/07-role-staff-authors.png)
+
+Viewer, menu Books (hanya View):
+
+![Viewer Books](assets/Prak6/Tugas2/08-role-viewer-books.png)
+
+Viewer, menu Authors (tanpa aksi tambah, ubah, hapus):
+
+![Viewer Authors](assets/Prak6/Tugas2/09-role-viewer-authors.png)
+
+Viewer membuka `/admin/books/create` langsung lewat URL, ditolak 403:
+
+![Viewer 403](assets/Prak6/Tugas2/10-role-viewer-403.png)
+
+### 6.3.3 Widget Dashboard
+
+Dua widget ditambahkan di folder `app/Filament/Widgets`.
+
+| Widget | Isi |
+| --- | --- |
+| `BookStatsOverview` | 4 kartu: Total Books, Total Authors, Available, Borrowed |
+| `BookStatusChart` | Chart donut perbandingan buku Available dan Borrowed |
+
+```php
+Stat::make('Total Books', Book::count()),
+Stat::make('Available', Book::where('status', 'available')->count()),
+```
+
+Widget terbaca otomatis lewat `discoverWidgets()` di `AdminPanelProvider`.
+
+**Foto**
+
+![Widget dashboard](assets/Prak6/Tugas2/11-widget-dashboard.png)
+
+### 6.3.4 Kategori Buku
+
+Relasi **many-to-many** antara Book dan Category lewat tabel pivot `book_category`.
+
+| Bagian | Yang dilakukan |
+| --- | --- |
+| Model | `Category` dengan relasi `books()` |
+| Migration | Tabel `categories` dan tabel pivot `book_category` (kedua foreign key `cascadeOnDelete`, pasangan unik) |
+| Relasi | `Book::categories()` dan `Category::books()` memakai `belongsToMany` |
+| Form | `Select::make('categories')->relationship('categories', 'name')->multiple()` |
+| Seeder | `CategorySeeder` (8 kategori), tiap buku mendapat 1 sampai 3 kategori acak |
+
+Sebagai tambahan di luar tugas, kategori juga tampil sebagai badge di tabel Books dan halaman View.
+
+**Foto**
+
+Form dengan multiple select kategori:
+
+![Form kategori](assets/Prak6/Tugas2/12-kategori-form.png)
+
+Kolom kategori sebagai badge di list Books:
+
+![List kategori badge](assets/Prak6/Tugas2/13-kategori-list-badge.png)
+
+Kategori di halaman View:
+
+![View kategori](assets/Prak6/Tugas2/14-kategori-view.png)
+
+---
+
+## 6.4 Tugas 3: Analisis dan Dokumentasi
+
+### 6.4.1 Penjelasan Arsitektur
+
+#### Diagram ERD
+
+Diagram berikut menampilkan 5 tabel utama aplikasi. Tabel bawaan Laravel seperti `sessions`, `cache`, dan `jobs` tidak ditampilkan.
+
+```mermaid
+erDiagram
+    AUTHORS ||--o{ BOOKS : "menulis"
+    BOOKS ||--o{ BOOK_CATEGORY : "memiliki"
+    CATEGORIES ||--o{ BOOK_CATEGORY : "dipakai oleh"
+
+    USERS {
+        bigint id PK
+        varchar name
+        varchar email UK
+        timestamp email_verified_at "nullable"
+        varchar password
+        enum role "admin, staff, viewer"
+        varchar remember_token "nullable"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    AUTHORS {
+        bigint id PK
+        varchar name
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    BOOKS {
+        bigint id PK
+        varchar isbn UK
+        varchar title
+        bigint author_id FK
+        varchar publisher "nullable"
+        year year "nullable"
+        varchar cover "nullable"
+        enum status "available, borrowed"
+        text description "nullable"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CATEGORIES {
+        bigint id PK
+        varchar name UK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    BOOK_CATEGORY {
+        bigint id PK
+        bigint book_id FK
+        bigint category_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+#### Penjelasan Relasi Antar Tabel
+
+| Relasi | Jenis | Keterangan |
+| --- | --- | --- |
+| `authors` → `books` | One-to-Many | Satu penulis punya banyak buku. Foreign key `books.author_id`. Jika penulis dihapus, bukunya ikut terhapus (`onDelete('cascade')`). |
+| `books` ↔ `categories` | Many-to-Many | Satu buku bisa punya banyak kategori, satu kategori bisa dipakai banyak buku. Dihubungkan tabel pivot `book_category`. Jika buku atau kategori dihapus, baris pivotnya ikut terhapus. |
+| `users` | Berdiri sendiri | Tidak punya foreign key ke tabel lain. Kolom `role` dipakai oleh Policy untuk menentukan hak akses. |
+
+Di sisi model Eloquent:
+
+- `Author::books()` memakai `hasMany`, `Book::author()` memakai `belongsTo`.
+- `Book::categories()` dan `Category::books()` memakai `belongsToMany`.
+
+#### Alur Aplikasi (Request sampai Response)
+
+Contoh: pengguna membuka halaman daftar buku di `/admin/books`.
+
+1. **Browser** mengirim request `GET /admin/books`.
+2. **Router Laravel** mencocokkan URL dengan route yang didaftarkan Filament lewat `BookResource::getPages()`.
+3. **Middleware** panel memeriksa login. Jika belum login, pengguna diarahkan ke `/admin/login`.
+4. **Policy** (`BookPolicy::viewAny`) memeriksa `role` pengguna. Jika tidak diizinkan, hasilnya 403.
+5. **Halaman Resource** (`ListBooks`, komponen Livewire) berjalan dan menyusun tabel dari definisi `BookResource::table()`.
+6. **Model Eloquent** (`Book`) membuat query ke **MySQL**, termasuk pencarian, filter, dan relasi `author` serta `categories`.
+7. **Database** mengembalikan data ke Eloquent.
+8. **Filament dan Livewire** merender data menjadi HTML (Blade), lalu dikirim sebagai **response** ke browser.
+9. Saat pengguna mencari, memfilter, atau pindah halaman, Livewire mengirim request ke `/livewire/update` dan hanya bagian tabel yang diperbarui, tanpa memuat ulang seluruh halaman.
+
+```mermaid
+flowchart LR
+    A[Browser] --> B[Router]
+    B --> C[Middleware auth]
+    C --> D[Policy cek role]
+    D --> E[Resource page Livewire]
+    E --> F[Model Eloquent]
+    F --> G[(MySQL)]
+    G --> F
+    F --> E
+    E --> H[HTML response]
+    H --> A
+```
+
+### 6.4.2 Perbandingan dengan Pendekatan Tradisional
+
+Pendekatan tradisional berarti membuat CRUD manual: route, controller, view Blade, form, dan validasi ditulis sendiri.
+
+| Aspek | Filament | Manual (Laravel biasa) |
+| --- | --- | --- |
+| Kecepatan | Sangat cepat, satu Resource menghasilkan CRUD lengkap | Lebih lama, banyak file harus dibuat |
+| Jumlah kode | Sedikit, bersifat deklaratif | Banyak (route, controller, 4+ view, validasi) |
+| Tampilan | Sudah rapi, responsif, ada dark mode | Dibuat sendiri dengan HTML dan CSS |
+| Fitur tabel | Search, sort, filter, pagination, bulk action bawaan | Ditulis sendiri satu per satu |
+| Validasi form | Lewat method seperti `required()` dan `maxLength()` | Ditulis manual di controller atau Form Request |
+| Kustomisasi UI | Terbatas pada komponen yang tersedia | Bebas total |
+| Kurva belajar | Perlu paham konsep Filament dan Livewire | Cukup paham Laravel dasar |
+| Kontrol detail | Ada bagian yang tersembunyi di balik framework | Semua alur terlihat jelas |
+
+**Kelebihan Filament**
+
+- Pengerjaan CRUD jauh lebih cepat dan kodenya ringkas.
+- Tampilan konsisten tanpa mendesain dari nol.
+- Authorization lewat Policy langsung terhubung ke tombol dan halaman.
+- Cocok untuk prototype karena hasil cepat terlihat.
+
+**Kekurangan Filament**
+
+- Bergantung pada versi (Filament 3 dan 4 punya penulisan yang berbeda, misalnya `$heading` pada widget).
+- UI yang sangat khusus sulit dibuat.
+- Pemula bisa kurang paham alur di balik layar karena banyak dikerjakan otomatis.
+
+**Kelebihan pendekatan manual**
+
+- Kontrol penuh atas tampilan dan alur.
+- Memahami cara kerja MVC lebih dalam.
+- Tidak terikat package tertentu.
+
+**Kekurangan pendekatan manual**
+
+- Memakan waktu dan banyak kode berulang.
+- Fitur seperti filter, sort, dan bulk action harus dibuat sendiri.
+- Tampilan harus dirancang sendiri.
+
+**Kapan dipakai**
+
+| Pakai Filament | Pilih manual |
+| --- | --- |
+| Admin panel atau backoffice | Website publik yang menghadap pengunjung |
+| Aplikasi yang banyak CRUD | Tampilan yang sangat khusus |
+| Prototype atau MVP dengan waktu singkat | Aplikasi yang alur dan tampilannya unik |
+| Dashboard internal | Saat tujuan belajar adalah memahami MVC dari dasar |
+
+### 6.4.3 Refleksi Pembelajaran
+
+#### Apa yang Saya Pelajari
+
+- Filament mempercepat pembuatan admin panel karena form, tabel, filter, dan aksi cukup didefinisikan lewat kode deklaratif.
+- Relasi database: one-to-many lewat foreign key dan many-to-many lewat tabel pivot, serta cara mendefinisikannya di model Eloquent.
+- Policy bekerja bersama `role` pengguna untuk membatasi akses. Saya juga baru tahu bahwa bulk delete memakai method `deleteAny`, bukan `delete`.
+- Factory dan seeder berguna untuk mengisi data contoh secara cepat dan konsisten.
+- Membaca pesan error dengan teliti sangat membantu menemukan sumber masalah.
+
+#### Kesulitan dan Cara Mengatasinya
+
+| No | Kesulitan | Penyebab | Cara mengatasi |
+| --- | --- | --- | --- |
+| 1 | Error tabel `authors` tidak ditemukan | `.env` masih membaca database `laravel`, migration belum dijalankan di sana | Mengatur `DB_DATABASE` di `.env`, menjalankan `php artisan config:clear`, lalu `php artisan migrate:fresh --seed` |
+| 2 | Error `Field 'name' doesn't have a default value` saat membuat buku | `name` belum ada di `$fillable` model `Author`, sehingga data dari form dibuang | Menambahkan `name` ke `$fillable` |
+| 3 | Menambah `role` di `User` tidak berpengaruh | Laravel 13 memakai atribut `#[Fillable([...])]` di atas class, bukan properti `$fillable` | Menambahkan `'role'` ke dalam atribut `#[Fillable]` |
+| 4 | Screenshot tidak tersimpan | Windows Security (Controlled Folder Access) memblokir `SnippingTool.exe` menulis ke folder terlindungi | Mengizinkan Snipping Tool di pengaturan Ransomware protection |
+| 5 | Widget terbuat di folder yang salah (`Resources/AdminResource/Widgets`) | Pertanyaan "resource" saat `make:filament-widget` saya isi `admin` | Mengosongkan jawaban itu dan memakai opsi `--panel=admin` |
+| 6 | Chart widget error | Method `getType()` tertimpa isi `getOptions()` | Mengembalikan `getType()` yang me-return `'doughnut'`, dan membuat `getOptions()` sebagai method terpisah |
+| 7 | Staff masih bisa bulk delete | Policy belum punya method `deleteAny` | Menambahkan `deleteAny` yang hanya mengizinkan admin |
+| 8 | Role belum berlaku di menu Authors | `AuthorPolicy` awalnya masih `return true` untuk semua | Mengubah `AuthorPolicy` agar sama dengan `BookPolicy` |
+
+#### Rencana Pengembangan Selanjutnya
+
+- Menambah **Category Resource** agar kategori bisa dikelola dari menu sendiri.
+- Menambah fitur **peminjaman buku** (tabel `loans` berisi peminjam, tanggal pinjam, dan tanggal kembali) sehingga status buku berubah otomatis.
+- Memakai package role seperti Filament Shield atau Spatie Permission agar pengaturan role lebih fleksibel.
+- Menambah fitur **export** data buku ke Excel atau PDF.
+- Membuat halaman publik untuk pengunjung mencari buku.
 
 ---
 
